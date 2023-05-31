@@ -1,0 +1,11 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "cloudhub/",
+    "cloudhub-server/"
+  ],
+  "devDependencies": {
+    "lerna": "^6.6.2"
+  }
+}
