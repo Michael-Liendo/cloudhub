@@ -8,8 +8,9 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "rome check src/",
-    "format": "rome format src/ --write"
+    "lint": "rome format ./src && rome check ./src",
+    "format": "rome format --write ./src && rome check --apply ./src",
+    "format:unsafe": "rome format --write ./src && rome check --apply-unsafe ./src"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.0.0",
