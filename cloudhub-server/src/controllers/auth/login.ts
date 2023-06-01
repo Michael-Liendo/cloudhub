@@ -10,19 +10,20 @@ export default async function loginControllers(
 	response: FastifyReply,
 ) {
 	try {
-		const { email, password } = request.body as CreateUserRequest;
+		const { username, password } = request.body as CreateUserRequest;
 
-		if (!email || !password) {
+		if (!username || !password) {
 			throw {
-				message: "Missing fields email or password",
+				message: "Missing fields username or password",
 				error: "Bad Request",
 			};
 		}
 
-		const user = (await getUserByUsername(email).catch((error) => {
+		const user = (await getUserByUsername(username).catch((error) => {
 			if (error.code === "404") {
 				throw {
-					message: "Invalid email or password",
+					statusCode: 401,
+					message: "Invalid username or password",
 					error: "Unauthorized",
 				};
 			}
@@ -31,6 +32,7 @@ export default async function loginControllers(
 		const isPasswordValid = await checkPassword(password, user.password);
 		if (!isPasswordValid) {
 			throw {
+				statusCode: 401,
 				message: "Invalid username or password",
 				error: "Unauthorized",
 			};
