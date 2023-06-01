@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
-import { User } from '../types/User';
+import jwt from "jsonwebtoken";
+import { User } from "../types/User";
 
 export default function generateToken(user: User) {
-  const payload = { id: user.id, email: user.email };
-  const options = { expiresIn: '15d' };
+	const payload = { id: user.id, email: user.email };
+	const options = { expiresIn: "30d" };
 
-  return jwt.sign(payload, process.env.JWT_SECRET, options);
+	return jwt.sign(payload, process.env.JWT_SECRET, options);
 }

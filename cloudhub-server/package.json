@@ -9,7 +9,9 @@
     "start": "node dist/src/index.js",
     "lint": "rome format ./src && rome check ./src",
     "format": "rome format --write ./src && rome check --apply ./src",
-    "format:unsafe": "rome format --write ./src && rome check --apply-unsafe ./src"
+    "format:unsafe": "rome format --write ./src && rome check --apply-unsafe ./src",
+    "migrations": "knex migrate:latest",
+    "migrations:down": "knex migrate:down"
   },
   "repository": {
     "type": "git",

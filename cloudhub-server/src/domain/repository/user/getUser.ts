@@ -1,9 +1,14 @@
 import { User } from "../../../types/User";
 import database from "../../database";
 
-export async function getUserByEmail(email: string): Promise<User> {
+export async function getUserByUsername(username: string): Promise<User> {
 	try {
-		const [user] = await database("users").select().where({ email: email });
+		const user = await database("users")
+			.select("*")
+			.where("username", username)
+			.orWhere("email", username)
+			.first();
+
 		if (!user) {
 			throw {
 				detail: "User not found",
@@ -23,7 +28,7 @@ export async function getUserByEmail(email: string): Promise<User> {
 
 export async function getUserById(id: string): Promise<User> {
 	try {
-		const [user] = await database("users").select("*").where({ id: id });
+		const user = await database("users").select("*").where({ id: id }).first();
 		if (!user) {
 			throw {
 				detail: "User not found",

@@ -44,15 +44,14 @@ export default async function registerControllers(
 
 			const accessToken = await generateToken(userCreation);
 
-			// TODO: response cookie
-			/* response.setCookie("accessToken", accessToken).status(200).send({
+			response.setCookie("accessToken", accessToken).status(200).send({
 				statusCode: 200,
 				error: null,
 				data: {
 					accessToken,
 				},
 				success: true,
-			}); */
+			});
 		} catch (error) {
 			if (error.code === "23505") {
 				const regex = /\(([^)]+)\)=(.*)/g;

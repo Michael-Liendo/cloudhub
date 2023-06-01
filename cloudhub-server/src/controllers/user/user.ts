@@ -1,13 +1,13 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { getUserById } from "../../domain/repository/user/getUser";
-import jwt from "jsonwebtoken";
+import { getUserByUsername } from "../../domain/repository/user/getUser";
+// import jwt from "jsonwebtoken";
 
 export default async function userController(
 	request: FastifyRequest,
 	response: FastifyReply,
 ) {
 	try {
-		const { id } = request.params as { id: string };
+		const { username } = request.params as { username: string };
 
 		/* const { authorization } = request.headers as { authorization: string };
 
@@ -15,7 +15,7 @@ export default async function userController(
 
 		const { id: userId } = jwt.verify(token, process.env.JWT_SECRET); */
 
-		const user = await getUserById(id).catch((error) => {
+		const user = await getUserByUsername(username).catch((error) => {
 			if (error.code === "22P02" || error.code === "404") {
 				throw {
 					statusCode: 404,
