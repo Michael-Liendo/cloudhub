@@ -1,6 +1,6 @@
 <script lang="ts">
   import classNames from 'classnames';
-
+  // TODO: especial password input with a view a hidden text
   export let type: 'text' | 'number' | 'email' | 'password' | 'username' =
     'text';
   export let name: string;
