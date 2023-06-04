@@ -23,9 +23,11 @@
       class="z-20 w-[25rem] md:shadow-none md:border-none md:p-0 bg-gradient-card md:!bg-transparent"
     >
       <slot />
+      <div class="-z-10 gradient fixed rounded-2xl top-48 left-96 w-48 h-48" />
+      <div
+        class="-z-10 gradient fixed rounded-2xl bottom-32 left-20 w-48 h-48"
+      />
     </Card>
-    <div class="gradient fixed rounded-2xl top-48 left-96 w-48 h-48" />
-    <div class="gradient fixed rounded-2xl bottom-32 left-20 w-48 h-48" />
   </main>
   <div
     class="bg-slate-700 w-[55%] bg-cover bg-no-repeat hidden md:block"
