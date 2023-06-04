@@ -3,6 +3,10 @@
   import TextField from '../../../lib/components/TextField.svelte';
 </script>
 
+<svelte:head>
+  <title>Login</title>
+</svelte:head>
+
 <h1 class="font-medium text-4xl md:text-5xl">Log in</h1>
 <!-- TODO: values -->
 <form class="mt-10">
