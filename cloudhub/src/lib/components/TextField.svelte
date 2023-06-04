@@ -93,7 +93,7 @@
     <button
       type="button"
       on:click={changeInputView}
-      class="transition-all duration-1000 absolute inset-y-0 right-0 flex items-center pr-3"
+      class="absolute inset-y-0 right-0 flex items-center pr-3"
     >
       {#if viewPassword}
         <EyeOpen />
