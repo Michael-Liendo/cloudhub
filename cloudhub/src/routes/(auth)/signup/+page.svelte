@@ -13,15 +13,18 @@
       email: '',
       password: '',
     },
+    /* todo: better validations */
     validationSchema: Yup.object({
       name: Yup.string().required(),
       lastName: Yup.string().required(),
       username: Yup.string().required(),
-      email: Yup.string().required(),
+      email: Yup.string().email().required(),
       password: Yup.string().required(),
     }),
     onSubmit(values, helpers) {
-      console.log(values, helpers);
+      setTimeout(() => {
+        console.log(values, helpers);
+      }, 2000);
     },
   });
 </script>
@@ -30,9 +33,8 @@
   <title>Sign up</title>
 </svelte:head>
 
-<h1 class="font-medium text-4xl md:text-5xl">Sign Up</h1>
-<!-- TODO: values -->
-<form class="mt-10">
+<h1 class="font-medium text-4xl md:text-5xl w-max">Sign Up | CloudHub</h1>
+<form on:submit={handleSubmit} class="mt-10">
   <div class="grid gap-6 mb-6 md:grid-cols-2">
     <div>
       <TextField
@@ -40,16 +42,18 @@
         name="name"
         type="text"
         placeholder="John"
-        required
+        bind:value={$values.name}
+        error={$errors.name}
       />
     </div>
     <div>
       <TextField
-        label="Last name"
+        label="Last Name"
         name="lastName"
         type="text"
         placeholder="Doe"
-        required
+        bind:value={$values.lastName}
+        error={$errors.lastName}
       />
     </div>
   </div>
@@ -59,7 +63,8 @@
       name="username"
       type="username"
       placeholder="johndoe"
-      required
+      bind:value={$values.username}
+      error={$errors.username}
     />
   </div>
   <div class="mb-6">
@@ -68,20 +73,22 @@
       name="email"
       type="email"
       placeholder="john.doe@company.com"
-      required
+      bind:value={$values.email}
+      error={$errors.email}
     />
   </div>
-  <div class="mb-6">
+  <div class="mb-10">
     <TextField
       label="Password"
       name="password"
       type="password"
-      placeholder="* * * * * * *"
-      required
+      placeholder="* * * * * * * * *"
+      bind:value={$values.password}
+      error={$errors.password}
     />
   </div>
 
-  <Button type="submit" fullWidth>Sign up</Button>
+  <Button disabled={$isSubmitting} type="submit" fullWidth>Sign up</Button>
 </form>
 
 <div class="text-right">
