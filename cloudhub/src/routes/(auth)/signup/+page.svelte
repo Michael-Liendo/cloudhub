@@ -1,6 +1,29 @@
 <script lang="ts">
+  import { newForm } from '@whizzes/svelte-forms';
+  import * as Yup from 'yup';
+
   import Button from '$lib/components/Button.svelte';
   import TextField from '../../../lib/components/TextField.svelte';
+
+  const { handleSubmit, values, errors, isSubmitting } = newForm({
+    initialValues: {
+      name: '',
+      lastName: '',
+      username: '',
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required(),
+      lastName: Yup.string().required(),
+      username: Yup.string().required(),
+      email: Yup.string().required(),
+      password: Yup.string().required(),
+    }),
+    onSubmit(values, helpers) {
+      console.log(values, helpers);
+    },
+  });
 </script>
 
 <svelte:head>
@@ -23,7 +46,7 @@
     <div>
       <TextField
         label="Last name"
-        name="last_name"
+        name="lastName"
         type="text"
         placeholder="Doe"
         required
