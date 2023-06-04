@@ -1,9 +1,11 @@
 import { FastifyRequest, FastifyReply } from "fastify";
+
 import { getUserByUsername } from "../../domain/repository/user/getUser";
 import { CreateUserRequest } from "../../types/AuthRequest";
 import checkPassword from "../../helpers/checkPassword";
 import { User } from "../../types/User";
 import generateToken from "../../helpers/generateToken";
+import { loginSchema } from "../../domain/model/login";
 
 export default async function loginControllers(
 	request: FastifyRequest,
@@ -12,12 +14,20 @@ export default async function loginControllers(
 	try {
 		const { username, password } = request.body as CreateUserRequest;
 
-		if (!username || !password) {
-			throw {
-				message: "Missing fields username or password",
-				error: "Bad Request",
-			};
-		}
+		await loginSchema
+			.validate(request.body, { abortEarly: false })
+			.catch((err) => {
+				const errorFields = err.inner.map((fieldError) => ({
+					field: fieldError.path,
+					message: fieldError.errors[0],
+				}));
+				throw {
+					statusCode: 400,
+					message: "Missing fields",
+					error: "Bad Request",
+					errorFields,
+				};
+			});
 
 		const user = (await getUserByUsername(username).catch((error) => {
 			if (error.code === "404") {
@@ -30,6 +40,7 @@ export default async function loginControllers(
 		})) as User;
 
 		const isPasswordValid = await checkPassword(password, user.password);
+
 		if (!isPasswordValid) {
 			throw {
 				statusCode: 401,
@@ -54,6 +65,7 @@ export default async function loginControllers(
 		response.code(error.statusCode || 500).send({
 			statusCode: error.statusCode || 500,
 			error: {
+				...error,
 				message: error.message || "Internal Server Error",
 				error: error.error || "Internal Server Error",
 			},
