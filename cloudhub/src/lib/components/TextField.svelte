@@ -35,9 +35,7 @@
 </script>
 
 {#if label}
-  <label for={id} class="block mb-2 font-medium" class:text-red-500={error}
-    >{label}</label
-  >
+  <label for={id} class="block mb-2 font-medium">{label}</label>
 {/if}
 
 {#if type == 'username'}
@@ -71,7 +69,7 @@
     />
   </div>
 {:else if type == 'password'}
-  <div class="relative mb-6">
+  <div class="relative">
     <input
       {name}
       {id}
@@ -128,7 +126,7 @@
 {/if}
 
 {#if error}
-  <p class="mt-2 text-sm text-red-500">
+  <p class="mt-0.5 text-sm text-red-500 fixed">
     {error}
   </p>
 {/if}
