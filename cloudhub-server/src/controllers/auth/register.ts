@@ -61,14 +61,23 @@ export default async function registerControllers(
 
 		const accessToken = await generateToken(await createUser(user));
 
-		response.setCookie("accessToken", accessToken).status(200).send({
-			statusCode: 200,
-			error: null,
-			data: {
-				accessToken,
-			},
-			success: true,
-		});
+		response
+			.setCookie("accessToken", accessToken, {
+				path: "/",
+				secure: true,
+				httpOnly: true,
+				sameSite: "none",
+				expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+			})
+			.status(200)
+			.send({
+				statusCode: 200,
+				error: null,
+				data: {
+					accessToken,
+				},
+				success: true,
+			});
 	} catch (error) {
 		if (!error.statusCode) console.error(error);
 		response.code(error.statusCode || 500).send({
