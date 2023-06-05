@@ -6,7 +6,7 @@ export async function checkExistingUser(username: string, email: string) {
 	try {
 		const userByUsername = await database("users")
 			.select("*")
-			.where("username", username)
+			.whereRaw("LOWER(username) = ?", username.toLowerCase())
 			.first();
 
 		if (userByUsername) {
@@ -15,7 +15,7 @@ export async function checkExistingUser(username: string, email: string) {
 
 		const userByEmail = await database("users")
 			.select("*")
-			.where("email", email)
+			.whereRaw("LOWER(email) = ?", email.toLowerCase())
 			.first();
 
 		if (userByEmail) {

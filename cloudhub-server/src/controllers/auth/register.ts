@@ -70,6 +70,7 @@ export default async function registerControllers(
 			success: true,
 		});
 	} catch (error) {
+		if (!error.statusCode) console.error(error);
 		response.code(error.statusCode || 500).send({
 			statusCode: error.statusCode || 500,
 			error: {

@@ -5,8 +5,8 @@ export async function getUserByUsername(username: string): Promise<User> {
 	try {
 		const user = await database("users")
 			.select("*")
-			.where("username", username)
-			.orWhere("email", username)
+			.whereRaw("LOWER(username) = ?", username.toLowerCase())
+			.orWhereRaw("LOWER(email) = ?", username.toLowerCase())
 			.first();
 
 		if (!user) {
