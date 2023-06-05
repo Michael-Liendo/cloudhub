@@ -52,17 +52,13 @@ export default async function loginControllers(
 		const accessToken = await generateToken(user);
 
 		response
-			.setCookie(
-				"accessToken",
-				accessToken,
-				/* esta configuración es opcional */ {
-					path: "/", // Especifica la ruta del servidor donde la cookie es válida
-					secure: true, // Como estás en localhost, no es necesario que sea seguro (si es necesario)
-					httpOnly: true, // Evita que la cookie sea accesible mediante JavaScript en el navegador ( opcional )
-					sameSite: "none", // Establece la política SameSite de la cookie
-					expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // Establece la fecha de vencimiento en 15 días
-				},
-			)
+			.setCookie("accessToken", accessToken, {
+				path: "/",
+				secure: true,
+				httpOnly: true,
+				sameSite: "none",
+				expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+			})
 			.send({
 				statusCode: 200,
 				data: {

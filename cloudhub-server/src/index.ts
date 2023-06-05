@@ -11,8 +11,10 @@ const fastify = Fastify();
 fastify.register(routes, { prefix: "/api" });
 
 fastify.register(cors, {
-	origin: "*",
+	origin: process.env.CORS_ORIGIN,
+	credentials: true,
 });
+
 fastify.register(fastifyCookie);
 
 database
