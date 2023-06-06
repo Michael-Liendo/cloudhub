@@ -1,15 +1,18 @@
 <script lang="ts">
   import Card from '$lib/components/Card.svelte';
   import { onMount } from 'svelte';
+  import type { Unsplash } from '../api/unsplash/+server';
 
-  // TODO: daily images
-  const cover =
-    'https://images.unsplash.com/photo-1685329173725-73914aada9ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80';
+  let cover: Unsplash;
 
-  onMount(() => {
+  onMount(async () => {
+    const response = await fetch('/api/unsplash');
+    const data = await response.json();
+    cover = data.data;
+
     document.documentElement.style.setProperty(
       '--cover-image',
-      `url('${cover}')`
+      `url('${cover?.url}')`
     );
   });
 </script>
@@ -28,11 +31,19 @@
         class="-z-10 gradient fixed rounded-2xl bottom-32 left-20 w-48 h-48"
       />
     </Card>
+    <span class="fixed bottom-4 right-4"
+      >Photo by {cover?.author.username || ''} on Unsplash</span
+    >
   </main>
   <div
     class="bg-slate-700 w-[55%] bg-cover bg-no-repeat hidden md:block"
-    style="background-image: url('{cover}');"
-  />
+    style="background-image: var(--cover-image);"
+  >
+    <!-- todo: better credits -->
+    <span class="fixed bottom-4 right-4"
+      >Photo by {cover?.author.username || ''} on Unsplash</span
+    >
+  </div>
 </div>
 
 <style>

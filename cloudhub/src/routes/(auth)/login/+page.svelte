@@ -45,19 +45,11 @@
       console.log(response);
     },
   });
-
-  async function onSubitForTest() {
-    const request = await fetch('/api/unsplash');
-    const data = await request.json();
-    console.log(data);
-  }
 </script>
 
 <svelte:head>
   <title>Login</title>
 </svelte:head>
-
-<button on:click={onSubitForTest}>on clikc</button>
 
 <h1 class="font-medium text-4xl md:text-5xl w-max">Log In | CloudHub</h1>
 <form on:submit={handleSubmit} class="mt-10">
