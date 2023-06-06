@@ -1,6 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 
-import type { LayoutServerLoad } from './$types';
 import type { User } from '../../app';
 
 export const load = ({
