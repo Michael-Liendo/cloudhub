@@ -12,7 +12,7 @@ export const load: LayoutServerLoad = ({
 	};
 }) => {
 	if (locals.user || locals.accessToken) {
-		throw redirect(302, '/');
+		throw redirect(302, '/home');
 	}
 
 	return {
