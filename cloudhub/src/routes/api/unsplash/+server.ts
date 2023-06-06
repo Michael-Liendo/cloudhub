@@ -43,7 +43,7 @@ export async function GET(event: RequestEvent) {
 		const today = new Date();
 
 		today.setDate(today.getDate() + 1);
-    // return the name author
+		// return the name author
 		const response = {
 			url: image?.urls.regular,
 			author: {
@@ -56,7 +56,7 @@ export async function GET(event: RequestEvent) {
 
 		event.cookies.set("UNSPLASH_DAILY_BACKGROUND", JSON.stringify(response), {
 			expires: today,
-      path:'/'
+			path: "/",
 		});
 
 		return new Response(
@@ -73,7 +73,7 @@ export async function GET(event: RequestEvent) {
 		JSON.stringify({
 			statusCode: result.status,
 			error: {
-				message: result.errors?.[0]|| "An error ocurred fetching the resource",
+				message: result.errors?.[0] || "An error ocurred fetching the resource",
 			},
 			data: null,
 			success: false,

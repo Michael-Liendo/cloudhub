@@ -17,15 +17,13 @@ declare global {
 		// interface Locals {}
 		interface PageData {
 			accessToken?: string | null;
-			user?: User | null
-		
+			user?: User | null;
 		}
 
 		interface Locals {
 			accessToken?: string | null;
-			user?: User | null
+			user?: User | null;
 		}
-
 	}
 }
 

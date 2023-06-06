@@ -1,9 +1,9 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect } from "@sveltejs/kit";
 
-import type { User } from '../../app';
+import type { User } from "../../app";
 
 export const load = ({
-	locals
+	locals,
 }: {
 	locals: {
 		accessToken?: string | null;
@@ -11,7 +11,7 @@ export const load = ({
 	};
 }) => {
 	if (!locals.user || !locals.accessToken) {
-		throw redirect(302, '/login');
+		throw redirect(302, "/login");
 	}
 
 	return {
