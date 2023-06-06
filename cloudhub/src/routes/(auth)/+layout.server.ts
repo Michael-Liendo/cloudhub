@@ -1,10 +1,10 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect } from "@sveltejs/kit";
 
-import type { LayoutServerLoad } from './$types';
-import type { User } from '../../app';
+import type { LayoutServerLoad } from "./$types";
+import type { User } from "../../app";
 
 export const load: LayoutServerLoad = ({
-	locals
+	locals,
 }: {
 	locals: {
 		accessToken?: string | null;
@@ -12,11 +12,11 @@ export const load: LayoutServerLoad = ({
 	};
 }) => {
 	if (locals.user || locals.accessToken) {
-		throw redirect(302, '/home');
+		throw redirect(302, "/home");
 	}
 
 	return {
 		accessToken: locals.accessToken,
-		user: locals.user
+		user: locals.user,
 	};
 };
