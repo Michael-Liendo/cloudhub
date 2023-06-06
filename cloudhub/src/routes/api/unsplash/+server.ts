@@ -35,7 +35,7 @@ export async function GET(event: RequestEvent) {
 	});
 
 	const result = await unsplash.search.getPhotos({
-		query: "night",
+		query: "night lights",
 	});
 
 	if (result.status === 200) {
@@ -56,6 +56,7 @@ export async function GET(event: RequestEvent) {
 
 		event.cookies.set("UNSPLASH_DAILY_BACKGROUND", JSON.stringify(response), {
 			expires: today,
+      path:'/'
 		});
 
 		return new Response(
