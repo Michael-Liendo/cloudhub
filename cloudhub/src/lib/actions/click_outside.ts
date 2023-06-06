@@ -1,4 +1,5 @@
-export function clickOutside(node: HTMLElement): unknown {
+// rome-ignore lint: why i no know the correct type
+export function clickOutside(node: HTMLElement): any {
 	const handleClick = (event: MouseEvent) => {
 		if (
 			node &&
