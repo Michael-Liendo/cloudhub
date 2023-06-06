@@ -10,29 +10,63 @@
       username: '',
       password: '',
     },
-    /* todo: better validations */
     validationSchema: Yup.object({
-      username: Yup.string().required(),
-      password: Yup.string().required(),
+      username: Yup.string().required('Username or Email is required.'),
+      password: Yup.string().required('Password is required.'),
     }),
-    onSubmit(values, helpers) {
-      // TODO: login
+    async onSubmit(values, helpers) {
+      const request = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(values),
+        }
+      );
+      const response = await request.json();
+
+      if (!response.success) console.log(response);
+
+      if (response.statusCode == 400) {
+        response.error?.errorFields?.forEach(
+          (error: { field: any; message: string }) => {
+            helpers.setFieldError(error.field, error.message);
+          }
+        );
+      } else if (response.statusCode == 401) {
+        helpers.setFieldError('username', 'Invalid username.');
+        helpers.setFieldError('password', 'Invalid password.');
+      }
+
+      // todo: enter to the platform
+      console.log(response);
     },
   });
+
+  async function onSubitForTest() {
+    const request = await fetch('/api/unsplash');
+    const data = await request.json();
+    console.log(data);
+  }
 </script>
 
 <svelte:head>
   <title>Login</title>
 </svelte:head>
 
+<button on:click={onSubitForTest}>on clikc</button>
+
 <h1 class="font-medium text-4xl md:text-5xl w-max">Log In | CloudHub</h1>
 <form on:submit={handleSubmit} class="mt-10">
   <div class="mb-6">
     <TextField
-      label="Username"
+      label="Username or Email"
       name="username"
       type="text"
-      placeholder="john.doe@company.com"
+      placeholder="john"
       bind:value={$values.username}
       error={$errors.username}
     />
