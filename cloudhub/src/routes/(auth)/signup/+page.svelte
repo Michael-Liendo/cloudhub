@@ -41,6 +41,7 @@
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify(values),
         }
       );
@@ -49,7 +50,7 @@
       if (!response.success) console.log(response);
 
       if (response.statusCode == 400) {
-        response.error?.errorFields.forEach(
+        response.error?.errorFields?.forEach(
           (error: { field: any; message: string }) => {
             helpers.setFieldError(error.field, error.message);
           }
