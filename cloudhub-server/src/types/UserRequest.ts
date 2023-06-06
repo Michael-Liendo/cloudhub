@@ -6,3 +6,10 @@ export type CreateUserRequest = {
 	email: string;
 	password: string;
 };
+
+export type UpdateUserRequest = {
+	avatar?: string;
+	first_name?: string;
+	last_name?: string;
+	username?: string;
+};
