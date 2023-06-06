@@ -40,9 +40,11 @@
         helpers.setFieldError('username', 'Invalid username.');
         helpers.setFieldError('password', 'Invalid password.');
       }
-
-      // todo: enter to the platform
-      console.log(response);
+      if (response.success) {
+        window.location.href = '/home';
+      } else {
+        console.error(response);
+      }
     },
   });
 </script>
