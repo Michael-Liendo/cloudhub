@@ -14,8 +14,7 @@
     <button
       on:click={handleDropdownClick}
       type="button"
-      class="flex text-sm bg-gray-900 rounded-full w-10 h-10 bg-cover"
-      style="background-image: url({$page.data.user?.avatar});"
+      class="flex text-sm bg-gray-900 rounded-full"
       id="user-menu-button"
       aria-expanded="false"
       data-dropdown-toggle="dropdown-2"
@@ -27,6 +26,12 @@
         >
           {$page.data.user?.first_name.charAt(0).toUpperCase()}
         </figure>
+      {:else}
+        <img
+          src={$page.data.user?.avatar}
+          alt="Avatar"
+          class="w-10 h-10 object-cover rounded-full"
+        />
       {/if}
     </button>
     {#if isDropdownOpen}
