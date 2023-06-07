@@ -16,6 +16,13 @@ export default async function updateUserController(
 
 		const token = authorization?.replace("JWT ", "");
 
+		if (Object.keys(userData).length < 1)
+			throw {
+				statusCode: 400,
+				message: "You need send fields to change",
+				error: "Bad Request",
+			};
+
 		const decode = jwt.verify(
 			token,
 			process.env.JWT_SECRET,
@@ -94,5 +101,8 @@ export default async function updateUserController(
 			data: null,
 			success: false,
 		});
+		if (!error.statusCode || error.statusCode === 500) {
+			console.error(error);
+		}
 	}
 }

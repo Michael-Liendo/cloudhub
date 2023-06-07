@@ -12,6 +12,6 @@
 @layer base {
   body {
     @apply text-white;
-    @apply bg-slate-700;
+    @apply bg-[#111827];
   }
 }

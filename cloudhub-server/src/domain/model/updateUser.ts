@@ -1,9 +1,9 @@
 import * as Yup from "yup";
 
 export const updateUserSchema = Yup.object().shape({
-	avatar: Yup.string(),
-	first_name: Yup.string(),
-	last_name: Yup.string(),
+	avatar: Yup.string().url(),
+	first_name: Yup.string().min(1, "First name must be at least 3 characters."),
+	last_name: Yup.string().min(1, "Last name must be at least 3 characters."),
 	username: Yup.string()
 		.matches(
 			/^[a-zA-Z0-9_-]+$/,
