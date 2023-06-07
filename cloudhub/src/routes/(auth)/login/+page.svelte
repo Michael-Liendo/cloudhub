@@ -53,7 +53,9 @@
   <title>Login</title>
 </svelte:head>
 
-<h1 class="font-medium text-4xl md:text-5xl w-max">Log In | CloudHub</h1>
+<h1 class="font-medium text-3xl sm:text-4xl md:text-5xl w-max">
+  Log In | CloudHub
+</h1>
 <form on:submit={handleSubmit} class="mt-10">
   <div class="mb-6">
     <TextField
