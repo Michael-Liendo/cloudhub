@@ -3,6 +3,7 @@
   import Hamburger from '~icons/mdi/menu';
 
   import Profile from './Profile.svelte';
+  import Upload from './Upload.svelte';
 
   let isMobileMenuOpen = false;
 
@@ -30,7 +31,10 @@
           >
         </a>
       </div>
-      <div class="flex items-center">
+      <div class="flex md:space-x-24 items-center">
+        <div class="hidden md:block">
+          <Upload />
+        </div>
         <Profile />
       </div>
     </div>
