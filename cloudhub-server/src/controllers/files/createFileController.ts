@@ -1,24 +1,31 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import fs from "fs";
+import path from "path";
 import util from "util";
 import { pipeline } from "stream";
 
 const pump = util.promisify(pipeline);
+
 export default async function createFileController(
 	request: FastifyRequest,
 	response: FastifyReply,
 ) {
 	try {
-		const { authorization } = request.headers as { authorization: string };
-		const token = authorization?.replace("JWT ", "");
-		// todo: files saver
-		const data = request.body;
+		const files = await request.files();
 
-		// Handle file upload and save
-		// ...
+		const uploadsDir =
+			"/home/michael/Documents/repos/cloudhub/cloudhub-server/"; // Ruta de la carpeta de uploads
 
-		console.log(data);
-		response.send(data);
+		for await (const file of files) {
+			if (file.file) {
+				const fileName = file.filename;
+				const savePath = path.join(uploadsDir, fileName);
+
+				await pump(file.file, fs.createWriteStream(savePath));
+			}
+		}
+
+		response.send({ message: "Files uploaded successfully" });
 	} catch (error) {
 		response.code(error.statusCode || 500).send({
 			statusCode: error.statusCode || 500,
