@@ -49,11 +49,11 @@
       <div class="mb-4">
         <label
           class="block mb-2 font-medium text-gray-900 dark:text-white"
-          for="file_input">Upload file</label
+          for="file">Upload file</label
         >
         <input
           class="block w-full text-gray-900 border rounded-lg cursor-pointer focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
-          id="file_input"
+          id="input"
           bind:this={input}
           type="file"
         />
@@ -64,7 +64,7 @@
 {/if}
 
 <style>
-  #file_input::file-selector-button {
+  #input::file-selector-button {
     background-color: rgb(60, 79, 99);
     border: none;
     color: #0c1318;

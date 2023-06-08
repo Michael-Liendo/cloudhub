@@ -1,12 +1,11 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import Fastify from "fastify";
+import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import database from "./domain/database";
 import routes from "./routes";
 import fastifyCookie from "@fastify/cookie";
-import fastifyMultipart from "@fastify/multipart";
 const fastify = Fastify({ bodyLimit: 1048576 });
 
 fastify.register(routes, { prefix: "/api" });
@@ -17,8 +16,6 @@ fastify.register(cors, {
 });
 
 fastify.register(fastifyCookie);
-
-fastify.register(fastifyMultipart);
 
 database
 	.raw("select 1")
