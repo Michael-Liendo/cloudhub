@@ -4,6 +4,8 @@ import path from "path";
 import util from "util";
 import { pipeline } from "stream";
 
+import jwt from "jsonwebtoken";
+
 const pump = util.promisify(pipeline);
 
 export default async function createFileController(
@@ -12,20 +14,33 @@ export default async function createFileController(
 ) {
 	try {
 		const files = await request.files();
+		const { authorization } = request.headers as { authorization: string };
 
-		const uploadsDir =
-			"/home/michael/Documents/repos/cloudhub/cloudhub-server/"; // Ruta de la carpeta de uploads
+		const token = authorization?.replace("JWT ", "");
+
+		const uploadsDir = process.env.FILES_FOLDERS;
+
+		const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
 		for await (const file of files) {
 			if (file.file) {
-				const fileName = file.filename;
+				const date = new Date().toLocaleDateString("en-US").replace(/\//g, "-");
+
+				const fileName = `${id}_${date}_${file.filename}`;
 				const savePath = path.join(uploadsDir, fileName);
 
 				await pump(file.file, fs.createWriteStream(savePath));
 			}
 		}
 
-		response.send({ message: "Files uploaded successfully" });
+		response.send({
+			statusCode: 200,
+			error: null,
+			data: {
+				message: "Files uploaded successfully",
+			},
+			success: true,
+		});
 	} catch (error) {
 		response.code(error.statusCode || 500).send({
 			statusCode: error.statusCode || 500,
