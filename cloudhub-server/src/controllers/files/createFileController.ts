@@ -28,9 +28,11 @@ export default async function createFileController(
 			if (file.file) {
 				hasFile = true;
 
-				const date = new Date().toLocaleDateString("en-US").replace(/\//g, "-");
+				const updateTime = new Date()
+					.toLocaleDateString("en-US")
+					.replace(/\//g, "-");
 
-				const fileName = `${id}_${date}_${file.filename}`;
+				const fileName = `${id}_${updateTime}_${file.filename}`;
 				const savePath = path.join(uploadsDir, fileName);
 
 				await pump(file.file, fs.createWriteStream(savePath));
