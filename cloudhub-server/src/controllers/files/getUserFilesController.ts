@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import fs from "fs";
 import path from "path";
 
-export default async function getFilesController(
+export default async function getUserFilesController(
 	request: FastifyRequest,
 	response: FastifyReply,
 ) {
@@ -10,6 +10,8 @@ export default async function getFilesController(
 		const uploadsDir = process.env.FILES_FOLDERS;
 
 		const files = fs.readdirSync(uploadsDir);
+
+		// todo: filter with the user id
 
 		const fileDetails = files.map((fileName) => {
 			const filePath = path.join(uploadsDir, fileName);
