@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import verifyToken from "../../../middleware/verifyToken";
 import createFileController from "../../../controllers/files/createFileController";
 import fastifyMultipart from "@fastify/multipart";
-import getFilesController from "../../../controllers/files/getFilesController";
+import getUserFilesController from "../../../controllers/files/getUserFilesController";
 
 export default function files(fastify: FastifyInstance, options, done) {
 	fastify.register(fastifyMultipart);
@@ -18,7 +18,7 @@ export default function files(fastify: FastifyInstance, options, done) {
 		method: "GET",
 		url: "/files",
 		preHandler: verifyToken,
-		handler: getFilesController,
+		handler: getUserFilesController,
 	});
 
 	done();
