@@ -22,8 +22,12 @@ export default async function createFileController(
 
 		const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
+		let hasFile = false;
+
 		for await (const file of files) {
 			if (file.file) {
+				hasFile = true;
+
 				const date = new Date().toLocaleDateString("en-US").replace(/\//g, "-");
 
 				const fileName = `${id}_${date}_${file.filename}`;
@@ -31,6 +35,18 @@ export default async function createFileController(
 
 				await pump(file.file, fs.createWriteStream(savePath));
 			}
+		}
+
+		if (!hasFile) {
+			response.code(400).send({
+				statusCode: 400,
+				error: {
+					message: "No file provided",
+				},
+				data: null,
+				success: false,
+			});
+			return;
 		}
 
 		response.send({
