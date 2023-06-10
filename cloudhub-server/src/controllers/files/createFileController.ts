@@ -37,7 +37,7 @@ export default async function createFileController(
 			statusCode: 200,
 			error: null,
 			data: {
-				message: "Files uploaded successfully",
+				message: "File uploaded successfully",
 			},
 			success: true,
 		});
