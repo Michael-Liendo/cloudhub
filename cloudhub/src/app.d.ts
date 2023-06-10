@@ -11,6 +11,13 @@ export type User = {
 	password: string;
 };
 
+export type FileDetails = {
+  name: string;
+  size: number;
+  createdAt: Date;
+};
+
+
 declare global {
 	namespace App {
 		// interface Error {}
@@ -18,11 +25,13 @@ declare global {
 		interface PageData {
 			accessToken?: string | null;
 			user?: User | null;
+			files?: FileDetails[] | null
 		}
 
 		interface Locals {
 			accessToken?: string | null;
 			user?: User | null;
+			files?: FileDetails[] | null
 		}
 	}
 }
