@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
 
   import { clickOutside } from '$lib/actions/click_outside';
+  import { notifications } from '@whizzes/svelte-notifications';
   import Button from '../Button.svelte';
 
   let isDropdownOpen = false;
@@ -29,8 +30,13 @@
 
     const response = await request.json();
 
-    console.log(response);
-    window.location.href = '/home';
+    if (response.success) {
+      notifications.notifySuccess('File upload!');
+      window.location.href = '/home';
+    } else {
+      notifications.notifyFailure(response.error.message);
+      console.error(response);
+    }
   }
 </script>
 

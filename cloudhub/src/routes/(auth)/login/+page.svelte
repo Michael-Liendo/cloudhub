@@ -4,6 +4,7 @@
 
   import Button from '$lib/components/Button.svelte';
   import TextField from '../../../lib/components/TextField.svelte';
+  import { notifications } from '@whizzes/svelte-notifications';
 
   const { handleSubmit, values, errors, isSubmitting } = newForm({
     initialValues: {
@@ -39,11 +40,13 @@
       } else if (response.statusCode == 401) {
         helpers.setFieldError('username', 'Invalid username.');
         helpers.setFieldError('password', 'Invalid password.');
-      }
-      if (response.success) {
+        notifications.notifyFailure('Username or password invalid');
+      } else if (response.statusCode == 200) {
+        notifications.notifySuccess('Log in!');
         window.location.href = '/home';
       } else {
         console.error(response);
+        notifications.notifyFailure('Please try again later');
       }
     },
   });
