@@ -12,11 +12,10 @@ export type User = {
 };
 
 export type FileDetails = {
-  name: string;
-  size: number;
-  createdAt: Date;
+	name: string;
+	size: number;
+	createdAt: Date;
 };
-
 
 declare global {
 	namespace App {
@@ -25,13 +24,13 @@ declare global {
 		interface PageData {
 			accessToken?: string | null;
 			user?: User | null;
-			files?: FileDetails[] | null
+			files?: FileDetails[] | null;
 		}
 
 		interface Locals {
 			accessToken?: string | null;
 			user?: User | null;
-			files?: FileDetails[] | null
+			files?: FileDetails[] | null;
 		}
 	}
 }

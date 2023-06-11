@@ -15,21 +15,19 @@ async function getUserDetails(accessToken: string) {
 	return response;
 }
 
-async function getUserFiles(accessToken:string) {
-		try {
-			const response = await fetch(
-				`${import.meta.env.VITE_API_URL}/api/files/files`,
-				{ headers: { Authorization: `JWT ${accessToken}` } }
-			);
-			const data = await response.json();
-			
-			return data.data.files;
-		} catch (error) {
-			console.error(error);
-		}
-	};
+async function getUserFiles(accessToken: string) {
+	try {
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/api/files/files`,
+			{ headers: { Authorization: `JWT ${accessToken}` } },
+		);
+		const data = await response.json();
 
-
+		return data.data.files;
+	} catch (error) {
+		console.error(error);
+	}
+}
 
 export const handle: Handle = async ({ event, resolve }) => {
 	try {
@@ -46,8 +44,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			console.error(error);
 		});
 
-		const userFilesUploads = await getUserFiles(accessToken)	
-			
+		const userFilesUploads = await getUserFiles(accessToken);
 
 		if (!userDetails?.success) {
 			event.cookies.set("accessToken", "", {
@@ -58,7 +55,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if (accessToken) {
 			event.locals.accessToken = accessToken;
 			event.locals.user = userDetails.data.user;
-			event.locals.files = userFilesUploads
+			event.locals.files = userFilesUploads;
 		}
 
 		return await resolve(event);
@@ -66,7 +63,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		console.log(err);
 		event.locals.accessToken = null;
 		event.locals.user = null;
-		event.locals.files = null
+		event.locals.files = null;
 
 		return await resolve(event);
 	}
