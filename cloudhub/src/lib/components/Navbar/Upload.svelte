@@ -34,7 +34,7 @@
       notifications.notifySuccess('File upload!');
       window.location.href = '/home';
     } else {
-      notifications.notifyFailure(response.error.message);
+      notifications.notifyFailure(response.error.message || response.error);
       console.error(response);
     }
   }
