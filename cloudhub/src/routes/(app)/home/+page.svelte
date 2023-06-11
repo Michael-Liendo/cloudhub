@@ -6,6 +6,6 @@
 
 <h1>Files uploads</h1>
 
-{#each data.files as file}
+{#each data.files ?? [] as file}
   <p>{file.name}</p>
 {/each}
