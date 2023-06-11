@@ -4,7 +4,7 @@
   import { clickOutside } from '$lib/actions/click_outside';
   import Button from '../Button.svelte';
 
-  let isDropdownOpen = true;
+  let isDropdownOpen = false;
   const handleDropdownClick = () => {
     isDropdownOpen = !isDropdownOpen;
   };
@@ -30,6 +30,7 @@
     const response = await request.json();
 
     console.log(response);
+    window.location.href = '/home';
   }
 </script>
 
