@@ -4,6 +4,7 @@
 
   import Button from '$lib/components/Button.svelte';
   import TextField from '../../../lib/components/TextField.svelte';
+  import { notifications } from '@whizzes/svelte-notifications';
 
   const { handleSubmit, values, errors, isSubmitting } = newForm({
     initialValues: {
@@ -55,10 +56,11 @@
             helpers.setFieldError(error.field, error.message);
           }
         );
-      }
-      if (response.success) {
+      } else if (response.success) {
+        notifications.notifySuccess('Account created!');
         window.location.href = '/home';
       } else {
+        notifications.notifyFailure(response.error.message);
         console.error(response);
       }
     },

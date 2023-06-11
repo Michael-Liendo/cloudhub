@@ -3,6 +3,7 @@
   import * as Yup from 'yup';
   import Button from '$lib/components/Button.svelte';
   import TextField from '$lib/components/TextField.svelte';
+  import { notifications } from '@whizzes/svelte-notifications';
 
   export let data;
 
@@ -46,8 +47,10 @@
       }
 
       if (response.success) {
+        notifications.notifySuccess('Data updated!');
         window.location.href = '/home';
       } else {
+        notifications.notifyFailure(response.error.message);
         console.error(response);
       }
     },
