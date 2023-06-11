@@ -6,7 +6,9 @@ import cors from "@fastify/cors";
 import database from "./domain/database";
 import routes from "./routes";
 import fastifyCookie from "@fastify/cookie";
-const fastify = Fastify({ bodyLimit: 1048576 });
+const fastify = Fastify({
+	bodyLimit: Number(process.env.MAX_FILE_SIZE) * 1024 * 1024,
+});
 
 fastify.register(routes, { prefix: "/api" });
 
