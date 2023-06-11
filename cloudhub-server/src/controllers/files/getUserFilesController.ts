@@ -1,20 +1,29 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import fs from "fs";
 import path from "path";
+import jwt from "jsonwebtoken";
 
 export default async function getUserFilesController(
 	request: FastifyRequest,
 	response: FastifyReply,
 ) {
 	try {
+		const { authorization } = request.headers as { authorization: string };
+
+		const token = authorization?.replace("JWT ", "");
+
 		const uploadsDir = process.env.FILES_FOLDERS;
+		const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
-		const files = fs.readdirSync(uploadsDir);
+		const userFolderPath = path.join(uploadsDir, id.toString());
 
-		// todo: filter with the user id
+		let files = [];
+		if (fs.existsSync(userFolderPath)) {
+			files = fs.readdirSync(userFolderPath);
+		}
 
 		const fileDetails = files.map((fileName) => {
-			const filePath = path.join(uploadsDir, fileName);
+			const filePath = path.join(userFolderPath, fileName);
 			const fileStats = fs.statSync(filePath);
 
 			return {
