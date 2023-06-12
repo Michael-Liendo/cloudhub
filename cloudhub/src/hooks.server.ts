@@ -1,14 +1,12 @@
+import { API_URL } from "$env/static/private";
 import type { Handle } from "@sveltejs/kit";
 
 async function getUserDetails(accessToken: string) {
-	const request = await fetch(
-		`${import.meta.env.VITE_API_URL}/api/users/user/`,
-		{
-			headers: {
-				Authorization: `JWT ${accessToken}`,
-			},
+	const request = await fetch(`${API_URL}/api/users/user/`, {
+		headers: {
+			Authorization: `JWT ${accessToken}`,
 		},
-	);
+	});
 
 	const response = await request.json();
 
@@ -17,10 +15,9 @@ async function getUserDetails(accessToken: string) {
 
 async function getUserFiles(accessToken: string) {
 	try {
-		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/api/files/files`,
-			{ headers: { Authorization: `JWT ${accessToken}` } },
-		);
+		const response = await fetch(`${API_URL}/api/files/files`, {
+			headers: { Authorization: `JWT ${accessToken}` },
+		});
 		const data = await response.json();
 
 		return data.data.files;

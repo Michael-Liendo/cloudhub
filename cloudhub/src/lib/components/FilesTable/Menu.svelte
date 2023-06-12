@@ -29,7 +29,7 @@
       a.click();
       URL.revokeObjectURL(url);
     } else {
-      console.error('Error downloading file');
+      console.error(response);
     }
   }
 
