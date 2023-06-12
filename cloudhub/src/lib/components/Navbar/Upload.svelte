@@ -1,6 +1,5 @@
 <script lang="ts">
   import { page } from '$app/stores';
-
   import { clickOutside } from '$lib/actions/click_outside';
   import { notifications } from '@whizzes/svelte-notifications';
   import Button from '../Button.svelte';
@@ -15,12 +14,14 @@
 
   const { values, handleSubmit } = newForm({
     initialValues: {
-      file: null,
+      files: null,
     },
     async onSubmit() {
       let data = new FormData();
 
-      data.append('file', input.files[0]);
+      for (let i = 0; i < input.files.length; i++) {
+        data.append('files', input.files[i]);
+      }
 
       const request = await fetch(
         `${import.meta.env.VITE_API_URL}/api/files/file`,
@@ -36,7 +37,10 @@
       const response = await request.json();
 
       if (response.success) {
-        notifications.notifySuccess('File upload!');
+        notifications.notifySuccess('Files uploaded!');
+
+        // TODO: REMOVE THIS AND REFRESH COMPONENT
+        window.location.href = '/home';
       } else {
         notifications.notifyFailure(response.error.message || response.error);
         console.error(response);
@@ -68,6 +72,7 @@
           id="input"
           bind:value={$values.file}
           bind:this={input}
+          multiple
           type="file"
         />
       </div>
