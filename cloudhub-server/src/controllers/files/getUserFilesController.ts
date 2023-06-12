@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import fs from "fs";
 import path from "path";
 import jwt from "jsonwebtoken";
+import { minioClient } from "../../domain/minio";
 
 export default async function getUserFilesController(
 	request: FastifyRequest,
@@ -12,26 +12,24 @@ export default async function getUserFilesController(
 
 		const token = authorization?.replace("JWT ", "");
 
-		const uploadsDir = process.env.FILES_FOLDERS;
-		const { id } = jwt.verify(token, process.env.JWT_SECRET);
+		const { id } = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
 
-		const userFolderPath = path.join(uploadsDir, id.toString());
+		const fileDetails = [];
 
-		let files = [];
-		if (fs.existsSync(userFolderPath)) {
-			files = fs.readdirSync(userFolderPath);
+		const stream = minioClient.listObjectsV2(process.env.BUCKET_NAME, id, true);
+
+		for await (const file of stream) {
+			const stat = await minioClient.statObject(
+				process.env.BUCKET_NAME,
+				file.name,
+			);
+
+			fileDetails.push({
+				name: String(file.name).replace(/(.+)\//g, ""),
+				size: stat.size,
+				createdAt: stat.lastModified,
+			});
 		}
-
-		const fileDetails = files.map((fileName) => {
-			const filePath = path.join(userFolderPath, fileName);
-			const fileStats = fs.statSync(filePath);
-
-			return {
-				name: fileName,
-				size: fileStats.size,
-				createdAt: fileStats.birthtime,
-			};
-		});
 
 		response.send({
 			statusCode: 200,
