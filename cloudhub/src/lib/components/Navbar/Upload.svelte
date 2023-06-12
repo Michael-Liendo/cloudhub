@@ -72,6 +72,7 @@
           id="input"
           bind:this={input}
           multiple
+          required
           type="file"
         />
       </div>
