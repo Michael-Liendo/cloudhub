@@ -12,7 +12,7 @@
 
   let input: any;
 
-  const { values, handleSubmit } = newForm({
+  const { handleSubmit } = newForm({
     initialValues: {
       files: null,
     },
@@ -70,7 +70,6 @@
         <input
           class="block w-full text-gray-900 border rounded-lg cursor-pointer focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
           id="input"
-          bind:value={$values.file}
           bind:this={input}
           multiple
           type="file"
