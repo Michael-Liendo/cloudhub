@@ -3,6 +3,7 @@ import verifyToken from "../../../middleware/verifyToken";
 import createFileController from "../../../controllers/files/createFileController";
 import fastifyMultipart from "@fastify/multipart";
 import getUserFilesController from "../../../controllers/files/getUserFilesController";
+import downloadFileController from "../../../controllers/files/downloadFileController";
 
 export default function files(fastify: FastifyInstance, options, done) {
 	fastify.register(fastifyMultipart);
@@ -19,6 +20,13 @@ export default function files(fastify: FastifyInstance, options, done) {
 		url: "/files",
 		preHandler: verifyToken,
 		handler: getUserFilesController,
+	});
+
+	fastify.route({
+		method: "POST",
+		url: "/download",
+		preHandler: verifyToken,
+		handler: downloadFileController,
 	});
 
 	done();
