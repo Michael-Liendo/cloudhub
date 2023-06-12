@@ -7,19 +7,16 @@ export async function PUT({
 }: { cookies: Cookies; request: Request }) {
 	const body = await request.json();
 
-
 	const response = await fetch(`${API_URL}/api/users/user`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
-      Authorization: `JWT ${cookies.get("accessToken")}`,
+			Authorization: `JWT ${cookies.get("accessToken")}`,
 		},
 		body: JSON.stringify(body),
 	});
 
 	const data = await response.json();
 
-	
-		return new Response(JSON.stringify(data), { status: data.statusCode });
-	
+	return new Response(JSON.stringify(data), { status: data.statusCode });
 }

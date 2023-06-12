@@ -18,7 +18,7 @@ export async function POST({
 	request,
 	cookies,
 }: { request: Request; cookies: Cookies }) {
-	const body = await request.formData(); 
+	const body = await request.formData();
 
 	const response = await fetch(`${API_URL}/api/files/files`, {
 		method: "POST",
