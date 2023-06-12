@@ -1,8 +1,6 @@
-import dotenv from "dotenv";
 import { createApi } from "unsplash-js";
 import type { RequestEvent } from "./$types";
-
-dotenv.config();
+import { UNSPLASH_ACCESS_KEY } from "$env/static/private";
 
 export type Unsplash = {
 	url: string;
@@ -31,7 +29,7 @@ export async function GET(event: RequestEvent) {
 	}
 
 	const unsplash = createApi({
-		accessKey: process.env.UNSPLASH_ACCESS_KEY || "",
+		accessKey: UNSPLASH_ACCESS_KEY || "",
 	});
 
 	const result = await unsplash.photos.getRandom({
@@ -61,6 +59,9 @@ export async function GET(event: RequestEvent) {
 			event.cookies.set("UNSPLASH_DAILY_BACKGROUND", JSON.stringify(response), {
 				expires: today,
 				path: "/",
+				httpOnly: true,
+				sameSite: "strict",
+				secure: process.env.NODE_ENV === "production",
 			});
 
 			return new Response(
