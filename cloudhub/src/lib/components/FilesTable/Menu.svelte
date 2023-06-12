@@ -1,7 +1,37 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import { clickOutside } from '$lib/actions/click_outside';
+  import type { FileDetails } from '../../../app';
 
+  export let file: FileDetails;
   let isDropdownOpen = false;
+
+  async function downloadFile() {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/files/download`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `JWT ${$page.data.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: file.name }),
+      }
+    );
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      console.error('Error downloading file');
+    }
+  }
 
   const handleDropdownClick = () => {
     isDropdownOpen = !isDropdownOpen;
@@ -20,11 +50,12 @@
         class="py-2 text-sm text-gray-700 dark:text-gray-200"
         aria-labelledby="dropdownDefaultButton"
       >
-        <li
+        <button
+          on:click={downloadFile}
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         >
           Download
-        </li>
+        </button>
       </ul>
       <ul
         class="py-2 text-sm text-gray-700 dark:text-gray-200"
