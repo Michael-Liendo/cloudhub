@@ -1,5 +1,16 @@
 version: '3.7'
 services:
+  minio:
+    image: minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
+    env_file:
+      - .env
+
   database:
     image: 'postgres:15-alpine'
     ports:
@@ -11,3 +22,4 @@ services:
 
 volumes:
   cloudhub:
+  minio-data:
