@@ -1,5 +1,4 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import path from "path";
 import jwt from "jsonwebtoken";
 import { minioClient } from "../../domain/minio";
 
@@ -28,6 +27,7 @@ export default async function getUserFilesController(
 				name: String(file.name).replace(/(.+)\//g, ""),
 				size: stat.size,
 				createdAt: stat.lastModified,
+				etag: stat.etag,
 			});
 		}
 
