@@ -10,7 +10,7 @@ export default function files(fastify: FastifyInstance, options, done) {
 
 	fastify.route({
 		method: "POST",
-		url: "/file",
+		url: "/files",
 		preHandler: verifyToken,
 		handler: createFileController,
 	});
