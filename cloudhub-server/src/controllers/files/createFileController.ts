@@ -1,11 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import fs from "fs";
-import path from "path";
-import util from "util";
-import { pipeline } from "stream";
 import jwt from "jsonwebtoken";
-
-const pump = util.promisify(pipeline);
+import { minioClient } from "../../domain/minio";
 
 export default async function createFileController(
 	request: FastifyRequest,
@@ -17,21 +12,14 @@ export default async function createFileController(
 
 		const token = authorization?.replace("JWT ", "");
 
-		const uploadsDir = process.env.FILES_FOLDERS;
-
-		const { id } = jwt.verify(token, process.env.JWT_SECRET);
-
-		const userFolderPath = path.join(uploadsDir, id.toString());
-		if (!fs.existsSync(userFolderPath)) {
-			fs.mkdirSync(userFolderPath);
-		}
+		const { id } = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
 
 		for await (const file of files) {
 			if (file.file) {
 				const fileName = file.filename;
-				const savePath = path.join(userFolderPath, fileName);
+				const uploadPath = `${id}/${fileName}`;
 
-				await pump(file.file, fs.createWriteStream(savePath));
+				await minioClient.putObject("userfiles", uploadPath, file.file);
 			}
 		}
 
@@ -39,7 +27,7 @@ export default async function createFileController(
 			statusCode: 200,
 			error: null,
 			data: {
-				message: "File uploaded successfully",
+				message: "Files uploaded successfully",
 			},
 			success: true,
 		});
