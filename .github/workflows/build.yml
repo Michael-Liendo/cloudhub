@@ -29,3 +29,7 @@ jobs:
 
       - name: Run Build Script
         run: npx lerna run build
+        env:
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          API_URL: ${{ secrets.API_URL }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
