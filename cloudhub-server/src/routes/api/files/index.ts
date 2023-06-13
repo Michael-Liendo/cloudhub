@@ -4,6 +4,7 @@ import createFileController from "../../../controllers/files/createFileControlle
 import fastifyMultipart from "@fastify/multipart";
 import getUserFilesController from "../../../controllers/files/getUserFilesController";
 import downloadFileController from "../../../controllers/files/downloadFileController";
+import deleteFileController from "../../../controllers/files/deleteFileController";
 
 export default function files(fastify: FastifyInstance, options, done) {
 	fastify.register(fastifyMultipart);
@@ -13,6 +14,13 @@ export default function files(fastify: FastifyInstance, options, done) {
 		url: "/files",
 		preHandler: verifyToken,
 		handler: createFileController,
+	});
+
+	fastify.route({
+		method: "DELETE",
+		url: "/files",
+		preHandler: verifyToken,
+		handler: deleteFileController,
 	});
 
 	fastify.route({
