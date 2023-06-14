@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { clickOutside } from '$lib/actions/click_outside';
   import { notifications } from '@whizzes/svelte-notifications';
+  import MenuIcon from '~icons/mdi/menu';
+  import CloseIcon from '~icons/mdi/close';
+  import { page } from '$app/stores';
+
+  import { clickOutside } from '$lib/actions/click_outside';
+
   import type { FileDetails } from '../../../app';
 
   export let file: FileDetails;
@@ -101,5 +105,9 @@
   aria-expanded="false"
   data-dropdown-toggle="dropdown-2"
 >
-  Menu
+  {#if !isDropdownOpen}
+    <MenuIcon font-size="20" />
+  {:else}
+    <CloseIcon font-size="20" />
+  {/if}
 </button>
