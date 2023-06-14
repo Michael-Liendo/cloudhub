@@ -57,6 +57,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Settings | Update {data.user.first_name}'s settings</title>
+</svelte:head>
+
 <div class="max-w-lg mx-auto bg-gray-900 text-white p-8 rounded-lg">
   <h2 class="text-2xl font-bold mb-6">Account Settings</h2>
   <form on:submit={handleSubmit}>
