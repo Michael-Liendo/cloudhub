@@ -11,14 +11,14 @@ export default function files(fastify: FastifyInstance, options, done) {
 
 	fastify.route({
 		method: "POST",
-		url: "/files",
+		url: "/upload",
 		preHandler: verifyToken,
 		handler: createFileController,
 	});
 
 	fastify.route({
 		method: "DELETE",
-		url: "/files",
+		url: "/delete",
 		preHandler: verifyToken,
 		handler: deleteFileController,
 	});

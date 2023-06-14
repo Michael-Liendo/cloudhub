@@ -24,7 +24,7 @@
       }
 
       const request = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/files/files`,
+        `${import.meta.env.VITE_API_URL}/api/files/upload`,
         {
           method: 'POST',
           headers: {

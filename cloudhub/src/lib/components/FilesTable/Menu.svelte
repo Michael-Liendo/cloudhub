@@ -13,7 +13,7 @@
 
   async function deleteFile() {
     const request = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/files/files`,
+      `${import.meta.env.VITE_API_URL}/api/files/delete`,
       {
         method: 'DELETE',
         headers: {

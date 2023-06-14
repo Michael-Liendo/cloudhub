@@ -1,13 +1,18 @@
 import { API_URL } from "$env/static/private";
 import type { Cookies } from "@sveltejs/kit";
 
-export async function GET({ cookies }: { cookies: Cookies }) {
-	const response = await fetch(`${API_URL}/api/files/files`, {
-		method: "GET",
+export async function POST({
+	request,
+	cookies,
+}: { request: Request; cookies: Cookies }) {
+	const body = await request.formData();
+
+	const response = await fetch(`${API_URL}/api/files/upload`, {
+		method: "POST",
 		headers: {
-			"Content-Type": "application/json",
 			Authorization: `JWT ${cookies.get("accessToken")}`,
 		},
+		body: body,
 	});
 
 	const data = await response.json();
