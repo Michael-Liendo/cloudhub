@@ -3,7 +3,7 @@ import { User } from "../../../types/User";
 import database from "../../database";
 
 export async function updateUser(
-	userId: number,
+	userId: string,
 	updatedUser: UpdateUserRequest,
 ): Promise<User> {
 	try {

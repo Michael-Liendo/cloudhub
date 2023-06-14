@@ -1,17 +1,13 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import jwt from "jsonwebtoken";
 import { minioClient } from "../../domain/minio";
+import getUserID from "../../helpers/getUserID";
 
 export default async function deleteFileController(
 	request: FastifyRequest,
 	response: FastifyReply,
 ) {
 	try {
-		const { authorization } = request.headers as { authorization: string };
-		const token = authorization?.replace("JWT ", "");
-		const { id } = jwt.verify(token, process.env.JWT_SECRET) as {
-			id: string;
-		};
+		const id = getUserID(request);
 
 		const { name } = request.body as { name: string };
 

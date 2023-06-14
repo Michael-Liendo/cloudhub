@@ -4,6 +4,7 @@ import {
 	getUserByUsername,
 } from "../../domain/repository/user/getUser";
 import jwt from "jsonwebtoken";
+import getUserID from "../../helpers/getUserID";
 
 export default async function userController(
 	request: FastifyRequest,
@@ -39,39 +40,9 @@ export default async function userController(
 			});
 		}
 
-		const { authorization } = request.headers as { authorization: string };
-
-		if (authorization) {
-			const token = authorization?.replace("JWT ", "");
-
-			const decode = jwt.verify(
-				token,
-				process.env.JWT_SECRET,
-				(error, decode) => {
-					if (decode) return decode;
-					else {
-						response.code(401).send({
-							statusCode: 401,
-							error: {
-								message: "Invalid token",
-								error: "Unauthorized",
-							},
-							data: null,
-							success: false,
-						});
-
-						response.setCookie("accessToken", "", {
-							path: "/",
-							secure: true,
-							httpOnly: true,
-							sameSite: "none",
-							domain: "localhost",
-							expires: new Date(),
-						});
-					}
-				},
-			);
-			const user = await getUserById(decode?.id || "").catch((error) => {
+		const id = getUserID(request);
+		if (id) {
+			const user = await getUserById(id).catch((error) => {
 				if (error.code === "22P02" || error.code === "404") {
 					throw {
 						statusCode: 404,
