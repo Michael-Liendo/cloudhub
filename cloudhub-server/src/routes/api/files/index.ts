@@ -5,6 +5,7 @@ import fastifyMultipart from "@fastify/multipart";
 import getUserFilesController from "../../../controllers/files/getUserFilesController";
 import downloadFileController from "../../../controllers/files/downloadFileController";
 import deleteFileController from "../../../controllers/files/deleteFileController";
+import renameFileController from "../../../controllers/files/renameFileController";
 
 export default function files(fastify: FastifyInstance, options, done) {
 	fastify.register(fastifyMultipart);
@@ -14,6 +15,13 @@ export default function files(fastify: FastifyInstance, options, done) {
 		url: "/upload",
 		preHandler: verifyToken,
 		handler: createFileController,
+	});
+
+	fastify.route({
+		method: "PUT",
+		url: "/rename",
+		preHandler: verifyToken,
+		handler: renameFileController,
 	});
 
 	fastify.route({
