@@ -71,6 +71,10 @@
       newFileName: '',
     },
     async onSubmit({ newFileName }) {
+      const extension =
+        file.name.substring(file.name.lastIndexOf('.') + 1, file.name.length) ||
+        file.name;
+
       const request = await fetch(
         `${import.meta.env.VITE_API_URL}/api/files/rename`,
         {
@@ -79,7 +83,10 @@
             Authorization: `JWT ${$page.data.accessToken}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ prevFileName: file.name, newFileName }),
+          body: JSON.stringify({
+            prevFileName: file.name,
+            newFileName: `${newFileName}.${extension}`,
+          }),
         }
       );
 
